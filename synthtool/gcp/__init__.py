@@ -20,20 +20,32 @@ class GAPICMicrogenerator:
       "ruby-cloud-path-override": ":overrides.:path",
       "ruby-cloud-namespace-override": ":overrides.:namespace",
       "ruby-cloud-service-override": ":overrides.:service",
+      "ruby-cloud-extra-dependencies": ":gem.:extra_dependencies",
+      "ruby-cloud-common-services": ":common_services",
     }
     
     extra_protoc_params_dict = {
-      "ruby-cloud-api-id": ":gem.:api_id",
-      "ruby-cloud-api-shortname": ":gem.:api_shortname",
-      "ruby-cloud-description": ":gem.:description",
-      "ruby-cloud-env-prefix": ":gem.:env_prefix",
       "ruby-cloud-gem-name": ":gem.:name",
       "ruby-cloud-gem-namespace": ":gem.:namespace",
-      "ruby-cloud-product-url": ":gem.:product-documentation-url",
       "ruby-cloud-title": ":gem.:title",
+      "ruby-cloud-description": ":gem.:description",
+      "ruby-cloud-summary": ":gem.:summary",
+      "ruby-cloud-homepage": ":gem.:homepage",
+      "ruby-cloud-env-prefix": ":gem.:env_prefix",
+
+      "ruby-cloud-wrapper-of": ":gem.:version_dependencies", # for wrappers
+      "ruby-cloud-migration-version": ":gem.:migration_version", # for wrappers
+
+      "ruby-cloud-api-id": ":gem.:api_id",
+      "ruby-cloud-api-shortname": ":gem.:api_shortname",
+      "ruby-cloud-factory-method-suffix": ":gem.:factory_method_suffix",
+
+      "ruby-cloud-product-url": ":gem.:product-documentation-url",
+      "ruby-cloud-issues-url": ":gem.:issue_tracker_url",
+
+      "ruby-cloud-free-tier": ":gem.:free_tier",
       "ruby-cloud-yard-strict": ":gem.:yard_strict",
-      "ruby-cloud-common-services": ":gem.:common_services",
-      "ruby-cloud-extra-dependencies": ":gem.:extra_dependencies",
+      "ruby-cloud-generic-endpoint": ":gem.:generic_endpoint",
     }
 
     if generator_args is None:
@@ -61,7 +73,7 @@ class GAPICMicrogenerator:
         key_base = extra_protoc_override_params[key]
         inner_key_value_strings = value.split(";")
         for ikvs in inner_key_value_strings:
-          pair = ikvs.split("=")
+          pair = ikvs.split("=", 1)
           ik = pair[0]
           iv = pair[1]
           protoc_key = f"{key_base}.{ik}"
