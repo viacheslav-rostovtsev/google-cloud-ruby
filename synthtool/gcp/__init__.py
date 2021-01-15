@@ -16,36 +16,40 @@ class GAPICMicrogenerator:
       print(f"set {key} \"{value}\"|{proto_path}:%nodejs_gapic_library")
 
   def ruby_library(self, service, version, proto_path=None, generator_args=None, **kwargs):
-    extra_protoc_override_params = {
-      "ruby-cloud-path-override": ":overrides.:path",
-      "ruby-cloud-namespace-override": ":overrides.:namespace",
-      "ruby-cloud-service-override": ":overrides.:service",
-      "ruby-cloud-extra-dependencies": ":gem.:extra_dependencies",
-      "ruby-cloud-common-services": ":common_services",
+    known_map_params = {
+      "ruby-cloud-common-services",
+      "ruby-cloud-path-override",
+      "ruby-cloud-namespace-override",
+      "ruby-cloud-service-override",
+      "ruby-cloud-extra-dependencies",
     }
-    
-    extra_protoc_params_dict = {
-      "ruby-cloud-gem-name": ":gem.:name",
-      "ruby-cloud-gem-namespace": ":gem.:namespace",
-      "ruby-cloud-title": ":gem.:title",
-      "ruby-cloud-description": ":gem.:description",
-      "ruby-cloud-summary": ":gem.:summary",
-      "ruby-cloud-homepage": ":gem.:homepage",
-      "ruby-cloud-env-prefix": ":gem.:env_prefix",
 
-      "ruby-cloud-wrapper-of": ":gem.:version_dependencies", # for wrappers
-      "ruby-cloud-migration-version": ":gem.:migration_version", # for wrappers
+    known_array_params = {
+      "ruby-cloud-default-oauth-scopes" 
+    }
 
-      "ruby-cloud-api-id": ":gem.:api_id",
-      "ruby-cloud-api-shortname": ":gem.:api_shortname",
-      "ruby-cloud-factory-method-suffix": ":gem.:factory_method_suffix",
+    known_string_and_bool_params = {
+      "ruby-cloud-free-tier",
+      "ruby-cloud-yard-strict",
+      "ruby-cloud-generic-endpoint",
 
-      "ruby-cloud-product-url": ":gem.:product-documentation-url",
-      "ruby-cloud-issues-url": ":gem.:issue_tracker_url",
+      "ruby-cloud-gem-name",
+      "ruby-cloud-gem-namespace",
+      "ruby-cloud-title",
+      "ruby-cloud-description",
+      "ruby-cloud-summary",
+      "ruby-cloud-homepage",
+      "ruby-cloud-env-prefix",
 
-      "ruby-cloud-free-tier": ":gem.:free_tier",
-      "ruby-cloud-yard-strict": ":gem.:yard_strict",
-      "ruby-cloud-generic-endpoint": ":gem.:generic_endpoint",
+      "ruby-cloud-wrapper-of",
+      "ruby-cloud-migration-version",
+      "ruby-cloud-product-url",
+      "ruby-cloud-issues-url",
+
+      "ruby-cloud-api-id",
+      "ruby-cloud-api-shortname",
+      "ruby-cloud-factory-method-suffix",
+      "ruby-cloud-default-service-host"
     }
 
     if generator_args is None:
@@ -58,39 +62,34 @@ class GAPICMicrogenerator:
     print(f"remove service_yaml|{proto_path}:%ruby_gapic_library")
 
     extra_protoc_parameters = []
+    encountered_keys = set()
 
     for key, value in generator_args.items():
+      encountered_keys.add(key)
       value = value.replace(' ', '\\ ')
       if key == "ruby-cloud-grpc-service-config":
         key = "grpc_service_config"
         value = ":" + value.rpartition('/')[-1]
         key = key.replace('-', '_')
         print(f"set {key} \"{value}\"|{proto_path}:%ruby_gapic_library")
-      elif key in extra_protoc_params_dict:
-        key = extra_protoc_params_dict[key]
+      elif key in known_map_params or key in known_string_and_bool_params: 
         extra_protoc_parameters.append(f'"{key}={value}"')
-      elif key in extra_protoc_override_params:
-        key_base = extra_protoc_override_params[key]
-        inner_key_value_strings = value.split(";")
-        for ikvs in inner_key_value_strings:
-          pair = ikvs.split("=", 1)
-          ik = pair[0]
-          iv = pair[1]
-          protoc_key = f"{key_base}.{ik}"
-          protoc_value = iv
-          extra_protoc_parameters.append(f'"{protoc_key}={protoc_value}"')
+      elif key in known_array_params:
+        new_value = value.replace("=", ";")
+        extra_protoc_parameters.append(f'"{key}={new_value}"')
       else:
         raise(Exception(f"unrecognised key {key}"))
     protoc_params_val = ",".join(extra_protoc_parameters)
+
     print(f"set extra_protoc_parameters [{protoc_params_val}]|{proto_path}:%ruby_gapic_library")
-    for params_key in extra_protoc_params_dict.keys():
-      pass
+
+    for params_key in encountered_keys:
       print(f"remove {params_key}|{proto_path}:%ruby_gapic_library")
       print(f"remove {params_key.replace('-', '_')}|{proto_path}:%ruby_gapic_library")
+
     dir = tempfile.mkdtemp()
     p =  Path(dir)
     os.makedirs(p / "lib/grafeas")
-
     return p
 
 class GAPICBazel:
