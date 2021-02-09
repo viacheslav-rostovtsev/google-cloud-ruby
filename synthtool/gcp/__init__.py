@@ -69,7 +69,7 @@ class GAPICMicrogenerator:
       value = value.replace(' ', '\\ ')
       if key == "ruby-cloud-grpc-service-config":
         key = "grpc_service_config"
-        value = ":" + value.rpartition('/')[-1]
+        value = value.rpartition('/')[-1]
         key = key.replace('-', '_')
         print(f"set {key} \"{value}\"|{proto_path}:%ruby_gapic_library")
       elif key in known_map_params or key in known_string_and_bool_params: 

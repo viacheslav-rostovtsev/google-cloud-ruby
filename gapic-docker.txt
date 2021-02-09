@@ -14,6 +14,7 @@ google-cloud-billing-budgets-v1beta1
 google-cloud-billing-v1
 google-cloud-binary_authorization-v1beta1
 google-cloud-build-v1
+google-cloud-channel-v1
 google-cloud-container_analysis-v1
 google-cloud-container-v1
 google-cloud-container-v1beta1
@@ -55,6 +56,7 @@ google-cloud-recommendation_engine-v1beta1
 google-cloud-recommender-v1
 google-cloud-redis-v1
 google-cloud-redis-v1beta1
+google-cloud-retail-v2
 google-cloud-scheduler-v1
 google-cloud-scheduler-v1beta1
 google-cloud-secret_manager-v1

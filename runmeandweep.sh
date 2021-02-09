@@ -9,7 +9,7 @@ echo "py"
 python run.py > ~/_/1/cmd.txt
 (cd ~/src/googleapis \
  && echo "buildozer" \
- && ~/go/bin/buildozer -f ~/_/1/cmd.txt -buildifier buildifier \
+ && /usr/bin/buildozer -f ~/_/1/cmd.txt -buildifier buildifier \
  && echo "sed 1 -- change rule name to ruby_cloud_gapic_library" \
  && for f in `git ls-files --modified`; do sed -i 's/ruby_gapic_library/ruby_cloud_gapic_library/g' $f; done \
  && echo "sed 2 -- change single-value src to an array srcs for ruby_cloud_gapic_library" \
