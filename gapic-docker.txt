@@ -43,6 +43,7 @@ google-cloud-media_translation-v1beta1
 google-cloud-memcache-v1beta2
 google-cloud-monitoring-dashboard-v1
 google-cloud-monitoring-v3
+google-cloud-network_connectivity-v1alpha1
 google-cloud-notebooks-v1beta1
 google-cloud-os_config-v1
 google-cloud-os_login-v1

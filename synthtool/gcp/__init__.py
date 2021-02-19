@@ -72,6 +72,9 @@ class GAPICMicrogenerator:
         value = value.rpartition('/')[-1]
         key = key.replace('-', '_')
         print(f"set {key} \"{value}\"|{proto_path}:%ruby_gapic_library")
+      elif key == "ruby-cloud-title" or key == "ruby-cloud-description":
+        key = key.replace("-", "_")
+        print(f"set {key} \"{value}\"|{proto_path}:%ruby_gapic_library")
       elif key in known_map_params or key in known_string_and_bool_params: 
         extra_protoc_parameters.append(f'"{key}={value}"')
       elif key in known_array_params:
