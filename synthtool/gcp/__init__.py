@@ -60,12 +60,16 @@ class GAPICMicrogenerator:
     print(f"remove gapic_yaml|{proto_path}:%ruby_gapic_library")
     print(f"remove package|{proto_path}:%ruby_gapic_library")
     print(f"remove service_yaml|{proto_path}:%ruby_gapic_library")
-
-    extra_protoc_parameters = []
-    encountered_keys = set()
+    print(f"remove grpc_service_config|{proto_path}:%ruby_gapic_library")
+    print(f"remove extra_protoc_parameters|{proto_path}:%ruby_gapic_library")
 
     for key, value in generator_args.items():
-      encountered_keys.add(key)
+      print(f"remove {key}|{proto_path}:%ruby_gapic_library")
+      print(f"remove {key.replace('-', '_')}|{proto_path}:%ruby_gapic_library")
+
+    extra_protoc_parameters = []
+
+    for key, value in generator_args.items():
       value = value.replace(' ', '\\ ')
       if key == "ruby-cloud-grpc-service-config":
         key = "grpc_service_config"
@@ -85,10 +89,6 @@ class GAPICMicrogenerator:
     protoc_params_val = ",".join(extra_protoc_parameters)
 
     print(f"set extra_protoc_parameters [{protoc_params_val}]|{proto_path}:%ruby_gapic_library")
-
-    for params_key in encountered_keys:
-      print(f"remove {params_key}|{proto_path}:%ruby_gapic_library")
-      print(f"remove {params_key.replace('-', '_')}|{proto_path}:%ruby_gapic_library")
 
     dir = tempfile.mkdtemp()
     p =  Path(dir)

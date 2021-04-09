@@ -9,6 +9,8 @@ echo "py"
 python run.py > ~/_/1/cmd.txt
 (cd ~/src/googleapis \
  && echo "buildozer" \
+ && echo "sed 0 -- change rule name from ruby_cloud_gapic_library to ruby_gapic_library" \
+ && for f in `git grep --files-with-matches ruby_cloud_gapic_library -- '*BUILD.bazel'`; do sed -i 's/ruby_cloud_gapic_library/ruby_gapic_library/g' $f; done \
  && /usr/bin/buildozer -f ~/_/1/cmd.txt -buildifier buildifier \
  && echo "sed 1 -- change rule name to ruby_cloud_gapic_library" \
  && for f in `git ls-files --modified`; do sed -i 's/ruby_gapic_library/ruby_cloud_gapic_library/g' $f; done \
