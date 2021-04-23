@@ -4,7 +4,7 @@ echo "preserve"
 mv gapic-docker.txt gapic-docker-old.txt
 mv ~/_/1/cmd.txt ~/_/1/cmd_old.txt
 echo "find"
-find . -maxdepth 1 -type d -regex ".*cloud.*-v[0-9].*" -printf "%f\n" | sed '/translate-v2/d' | sed '/asset-v1beta1/d' |sort > gapic-docker.txt
+find . -maxdepth 1 -type d -regex ".*cloud.*-v[0-9].*" -printf "%f\n" | sed '/translate-v2/d' | sed '/asset-v1beta1/d' | sed '/compute-v1/d' |sort > gapic-docker.txt
 echo "py"
 python run.py > ~/_/1/cmd.txt
 (cd ~/src/googleapis \

@@ -86,6 +86,7 @@ class GAPICMicrogenerator:
         extra_protoc_parameters.append(f'"{key}={new_value}"')
       else:
         raise(Exception(f"unrecognised key {key}"))
+    #extra_protoc_parameters.sort()
     protoc_params_val = ",".join(extra_protoc_parameters)
 
     print(f"set extra_protoc_parameters [{protoc_params_val}]|{proto_path}:%ruby_gapic_library")

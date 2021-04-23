@@ -1,4 +1,6 @@
 google-cloud-access_approval-v1
+google-cloud-api_gateway-v1
+google-cloud-app_engine-v1
 google-cloud-artifact_registry-v1beta2
 google-cloud-asset-v1
 google-cloud-assured_workloads-v1beta1
@@ -35,6 +37,7 @@ google-cloud-firestore-admin-v1
 google-cloud-firestore-v1
 google-cloud-functions-v1
 google-cloud-gaming-v1
+google-cloud-gke_hub-v1beta1
 google-cloud-iot-v1
 google-cloud-kms-v1
 google-cloud-language-v1
@@ -44,6 +47,8 @@ google-cloud-managed_identities-v1
 google-cloud-media_translation-v1beta1
 google-cloud-memcache-v1
 google-cloud-memcache-v1beta2
+google-cloud-metastore-v1
+google-cloud-metastore-v1beta
 google-cloud-monitoring-dashboard-v1
 google-cloud-monitoring-v3
 google-cloud-network_connectivity-v1alpha1
